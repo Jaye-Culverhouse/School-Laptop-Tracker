@@ -11,17 +11,17 @@ $$ |  $$ | \____$$\ $$   ____|$$ |      \____$$\
 
 Table Layout
 
-uid, fname, sname, mname, yeargroup, yearend
+uid, fname, sname, mname, yeargroup, yearend, cancheckout
 
 Explained
 
-uid       - unique user identifier                                                     (PK) (INT)
-fname     - user first name                                                                 (STR)
-sname     - user last name                                                                  (STR)
-mname     - user middle name(s)                                                             (STR)
-yeargroup - year group of user                                                              (INT)
-yearend   - year when the student will move up to the next year group (record keeping)      (INT)
-
+uid         - unique user identifier                                                     (PK) (INT)
+fname       - user first name                                                                 (STR)
+sname       - user last name                                                                  (STR)
+mname       - user middle name(s)                                                             (STR)
+yeargroup   - year group of user                                                              (INT)
+yearend     - year when the student will move up to the next year group (record keeping)      (INT)
+cancheckout - can the specified user check out a device at this time                          (BOL)
 
                                                                                                                                  
                                             
