@@ -1,0 +1,72 @@
+$$\   $$\                                        
+$$ |  $$ |                                       
+$$ |  $$ | $$$$$$$\  $$$$$$\   $$$$$$\  $$$$$$$\ 
+$$ |  $$ |$$  _____|$$  __$$\ $$  __$$\$$  _____|
+$$ |  $$ |\$$$$$$\  $$$$$$$$ |$$ |  \__\$$$$$$\  
+$$ |  $$ | \____$$\ $$   ____|$$ |      \____$$\ 
+\$$$$$$  |$$$$$$$  |\$$$$$$$\ $$ |     $$$$$$$  |
+ \______/ \_______/  \_______|\__|     \_______/ 
+
+
+
+Table Layout
+
+uid, fname, sname, mname, yeargroup, yearend
+
+Explained
+
+uid       - unique user identifier                                                     (PK) (INT)
+fname     - user first name                                                                 (STR)
+sname     - user last name                                                                  (STR)
+mname     - user middle name(s)                                                             (STR)
+yeargroup - year group of user                                                              (INT)
+yearend   - year when the student will move up to the next year group (record keeping)      (INT)
+
+
+                                                                                                                                 
+                                            
+
+$$$$$$$\                     $$\                              
+$$  __$$\                    \__|                             
+$$ |  $$ | $$$$$$\$$\    $$\ $$\  $$$$$$$\  $$$$$$\  $$$$$$$\ 
+$$ |  $$ |$$  __$$\$$\  $$  |$$ |$$  _____|$$  __$$\$$  _____|
+$$ |  $$ |$$$$$$$$ \$$\$$  / $$ |$$ /      $$$$$$$$ \$$$$$$\  
+$$ |  $$ |$$   ____|\$$$  /  $$ |$$ |      $$   ____|\____$$\ 
+$$$$$$$  |\$$$$$$$\  \$  /   $$ |\$$$$$$$\ \$$$$$$$\$$$$$$$  |
+\_______/  \_______|  \_/    \__| \_______| \_______\_______/ 
+
+
+Table layout
+
+did, checkedin
+
+Explained
+
+did       - unique device identifier                                                   (PK) (INT)
+checkedin - boolean value if device is currently checked in                                 (BOL)
+
+
+
+
+
+$$$$$$$$\                           $$\               
+$$  _____|                          $$ |              
+$$ | $$\    $$\  $$$$$$\  $$$$$$$\$$$$$$\    $$$$$$$\ 
+$$$$$\$$\  $$  |$$  __$$\ $$  __$$\_$$  _|  $$  _____|
+$$  __\$$\$$  / $$$$$$$$ |$$ |  $$ |$$ |    \$$$$$$\  
+$$ |   \$$$  /  $$   ____|$$ |  $$ |$$ |$$\  \____$$\ 
+$$$$$$$$\$  /   \$$$$$$$\ $$ |  $$ |\$$$$  |$$$$$$$  |
+\________\_/     \_______|\__|  \__| \____/ \_______/ 
+                                                      
+                                                      
+Table layout
+
+eid, time, sid, did, eventtype
+
+Explained
+
+eid       - unique event identifier                                                    (PK) (INT)
+time      - unix timestamp for event                                                        (INT)
+uid       - unique user identifier                                                     (FK) (INT)
+did       - unique device identifier                                                   (FK) (INT) 
+eventtype - boolean value if device is currently checked in                                 (BOL)
