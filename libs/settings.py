@@ -33,3 +33,12 @@ class settingsManager():
 
 	def getAll(self):
 		return self.settings
+
+def checkBasicSettings(settingsObj):
+	if not settingsObj.isSet("server_db_name"):
+		settingsObj.set("server_db_name", "server_db.db")
+
+	if not settingsObj.isSet("server_db_template_name"):
+		settingsObj.set("server_db_template_name", "server_db_template.db")
+
+	return settingsObj
