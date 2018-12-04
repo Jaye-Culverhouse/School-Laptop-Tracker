@@ -41,4 +41,9 @@ def checkBasicSettings(settingsObj):
 	if not settingsObj.isSet("server_db_template_name"):
 		settingsObj.set("server_db_template_name", "server_db_template.db")
 
+	if not settingsObj.isSet("server_hostname"):
+		settingsObj.set("server_hostname", "localhost")
+
+	if not settingsObj.isSet("server_port"):
+		settingsObj.set("server_port", 3141)
 	return settingsObj
