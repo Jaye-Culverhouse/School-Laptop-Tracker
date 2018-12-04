@@ -68,8 +68,7 @@ Commands will be sent in the form of a JSON string of the following structure
 {
 	"STATION_NUMBER" :[some number],
 	"COMMAND_ID"     :[some nunber],
-	"RESPONSE_TO"    :[some number, 0 if not in response to anything],
-	"MESSAGE"        :[some string or blank to indicate no message],
+	"MESSAGE"        :#[some string or blank to indicate no message],
 	"REQUEST"        :[some string or blank to indicate no request],
 	"ARGUMENTS"      :[list of arguments needed by message or request]
 	"PAYLOAD  "      :[String holding response to command with Command_ID in Response too, "" if not needed]
@@ -103,7 +102,7 @@ S2B - Server to Basestation
 [CHECKIN   ][Server checks in the specified device                     ][SID      ][B2S    ]
 [HEARTBEAT ][General heartbeat message, sent ever n seconds            ][         ][B2S,S2B]
 [OK        ][General response to a previous message                    ][         ][       ]
-[HACK      ][Basestation should loudly play "HACK THE PLANET" using tts][volume   ][S2B    ]
+
                                                                               
                                                                               
                                                                               
@@ -143,5 +142,5 @@ S2B - Server to Basestation
 [Message  ][Response to message                                             ][Arguments][DIR    ]
 [UPDATE   ][Client should send an update message to server                  ][         ][S2B    ]
 [GETNAME  ][Server responds with name for specified user                    ][UID      ][B2S    ]
-[CANCHECK ][Server responds if user can                                     ][UID      ][B2S    ]
+[CANCHECK ][Server responds if user can check out a device                  ][UID      ][B2S    ]
 [ISCHECEKD][Server responds with if a specific DID is checked out and who by][DID      ][B2S    ]
