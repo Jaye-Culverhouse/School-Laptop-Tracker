@@ -7,25 +7,29 @@ class settingsManager():
 	def __init__(self, settingsfile = "settings.json"):
 		self.settingsFile = settingsfile
 		if(path.isfile(settingsfile)):
-			self.loadSettings()
+			self.load()
 		else:
 			system("touch {}".format(settingsfile))
+			self.settings = {}
 		return None
 
-	def loadSettings(self):
+	def isSet(self, setting):
+		return setting in self.settings
+
+	def load(self):
 		self.settings = json.load(open(self.settingsFile, 'r'))
 		return True
 
-	def saveSettings(self):
+	def save(self):
 		json.dump(self.settings, open(self.settingsFile, 'w'))
 		return True
 
-	def setSetting(self, setting, newValue):
+	def set(self, setting, newValue):
 		self.settings[setting] = newValue
 		return True
 
-	def getSetting(self, setting):
+	def get(self, setting):
 		return self.settings[setting]
 
-	def getAllSettings(self):
+	def getAll(self):
 		return self.settings
