@@ -1,26 +1,34 @@
 ###COMMUNICATIONS HANDLER
 import socket as s
 import socketserver
+import json
+import DBIO
+
+####global variables, seemingly unavoidable without modifying socketserver
+####and i really don't want to do that
+
+stations = {}
+database = None
+configObj = None
+
+####end of globals
 
 class DBIO_Server(socketserver.StreamRequestHandler): #DATABASE I/O SERVER CLASS
-													  #USED WITH SOCKETSERVER TO SIMPLIFY SERVER METHOD
+	
+	def handle(self):
+		self.data = self.rfile.readline().strip()
+		try:
+			self.data = json.loads(self.data)
+		except:
+			print("Bad message recieved")
 
-	def setup(self, settingsObj, database):
-		self.database = database
-		self.settingsObj = settingsObj
+		stations, database, configObj, response = DBIO.getCorrectResponse(stations, database, configObj, data)
+		
+		self.wfile.write(a)
 		pass
 
-	def handle(self):
-		# self.rfile is a file-like object created by the handler;
-		# we can now use e.g. readline() instead of raw recv() calls
-		self.data = self.rfile.readline().strip()
-		print("{} wrote:".format(self.client_address[0]))
-		print(self.data)
-		# Likewise, self.wfile is a file-like object used to write back
-		# to the client
-		self.wfile.write(self.data.upper())
-
 def openDBIOServer(settingsObj, db):
-	with socketserver.TCPServer((settingsObj.get("server_hostname"), settingsObj.get("server_port")), DBIO_Server) as server:
-		server.setup(settingsObj, db)
+	database = db
+	configObj = settingsObj
+	with socketserver.TCPServer( (settingsObj.get("server_hostname"), settingsObj.get("server_port")), DBIO_Server) as server:
 		server.serve_forever()
