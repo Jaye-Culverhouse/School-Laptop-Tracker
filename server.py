@@ -20,5 +20,7 @@ def main():
 
 	db_connection = sqlite3.connect(settingsObj.get("server_db_name"))
 
+	libs.communication.openDBIOServer(settingsObj, db_connection)
+
 if __name__ == '__main__':
 	main()
