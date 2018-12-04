@@ -12,11 +12,11 @@ def main():
 																#run
 	settingsObj.save()
 	
-	if not path.isfile(settingsObj.get("server_db_name")): #Check if DB exists and try to copy in template if not
-		system("cp {} {}".format(settingsObj.get("server_db_template_name"), settingsObj.get("server_db_name")))
+	# if not path.isfile(settingsObj.get("server_db_name")): #Check if DB exists and try to copy in template if not
+	# 	system("cp {} {}".format(settingsObj.get("server_db_template_name"), settingsObj.get("server_db_name")))
 
 	if not path.isfile(settingsObj.get("server_db_name")): #Throw exception if database template not found
-		raise ValueError("Could not find {} (database template)".format(settingsObj.get("server_db_template_name")))
+		raise ValueError("The database is missing")
 
 	db_connection = sqlite3.connect(settingsObj.get("server_db_name"))
 
