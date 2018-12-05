@@ -29,15 +29,18 @@ def messageHandle(stations, database, configObj, data):
 		configObj.setAll(data["PAYLOAD"])
 		data = createCommand(data, MESSAGE = "OK")
 	elif message == "CHECKOUT":
-		database = checkItem(database, data["ARGUMENTS"], 0)
+		database = checkItem(database, data["ARGUMENTS"], 1)
 		data = createCommand(data, MESSAGE = "OK")
 	elif message == "CHECKIN":
-		database = checkItem(database, data["ARGUMENTS"], 1)
+		database = checkItem(database, data["ARGUMENTS"], 0)
 		data = createCommand(data, MESSAGE = "OK")
 	elif message == "HEARTBEAT" or message == "OK":
 		data=""
 	else:
 		raise ValueError("Unknown message recieved")
+	
+	database.commit()
+
 	return stations, database, configObj, data
 
 def requestHandle(stations, database, configObj, data):
@@ -62,6 +65,9 @@ def requestHandle(stations, database, configObj, data):
 		data = createCommand(data, MESSAGE = "HEARTBEAT", )
 	else:
 		raise ValueError("Unknown message recieved")
+	
+	database.commit()
+
 	return stations, database, configObj, data
 
 def createCommand(data, STATION_NUMBER="", COMMAND_ID="", MESSAGE="", REQUEST="", ARGUMENTS=[], PAYLOAD=""):
@@ -73,9 +79,17 @@ def createCommand(data, STATION_NUMBER="", COMMAND_ID="", MESSAGE="", REQUEST=""
 	data["PAYLOAD"] = PAYLOAD
 	return data
 
-def checkItem(database, arguments, io):
-	
-
+def checkItem(database, arguments, io): #io = 0 /\ checkin | io = 1 /\ checkout
+	c = database.cursor()
+	args1 = (int(time.time()),arguments[0],arguments[1])
+	args2 = (arguments[1],)
+	if io == 0:
+		c.execute("INSERT INTO events (time, uid, did, eventtype) VALUES (?, ?, ?, 'IN')",args1)
+		c.execute("UPDATE devices SET checkedin=1 WHERE did=?",args2)
+	else:
+		c.execute("INSERT INTO events (time, uid, did, eventtype) VALUES (?, ?, ?, 'OUT')",args1)
+		c.execute("UPDATE devices SET checkedin=0 WHERE did=?",args2)
+	return database
 def checkIfCheckedIn(database, DID):
 	c = database.cursor()
 	DID = (DID,)
