@@ -99,7 +99,7 @@ S2B - Server to Basestation
 [UPDATE    ][Client requests updated config file from server           ][         ][S2B    ]
 [UPDATEDATA][Client installs settings provided                         ][SETTINGS ][S2B    ]
 [CHECKOUT  ][Server checks out the specified device with user ID       ][UID,DID  ][B2S    ]
-[CHECKIN   ][Server checks in the specified device                     ][DID      ][B2S    ]
+[CHECKIN   ][Server checks in the specified device                     ][UID,DID  ][B2S    ]
 [HEARTBEAT ][General heartbeat message, sent ever n seconds            ][         ][B2S,S2B]
 [OK        ][General response to a previous message                    ][         ][       ]
 [DATA      ][                                                          ][         ][       ]
