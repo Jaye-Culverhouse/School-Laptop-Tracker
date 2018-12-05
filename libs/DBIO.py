@@ -47,19 +47,17 @@ def requestHandle(stations, database, configObj, data):
 			json.load(open("settings/station{}.json".format(data["STATION_NUMBER"]))))
 		)
 	elif request == "GETNAME":
-		stations["STATION_NUMBER"] = -1
-		data = createCommand(data, MESSAGE = "OK")
+		data = createCommand(data, MESSAGE = "DATA", PAYLOAD = checkName(database, data["ARGUMENTS"][0]))
 	elif request == "CANCHECK":
-		data = createCommand(data, REQUEST = "UPDATE")
+		data = createCommand(data, MESSAGE = "DATA", PAYLOAD = checkIfCanCheck(database, data["ARGUMENTS"][0]))
 	elif request == "ISCHECKED":
-		configObj.setAll(data["PAYLOAD"])
-		data = createCommand(data, MESSAGE = "OK")
-	elif request == "DIE":
-		database = checkItem(database, data["ARGUMENTS"], 0)
-		data = createCommand(data, MESSAGE = "OK")
-	elif request == "LIVE":
-		database = checkItem(database, data["ARGUMENTS"], 1)
-		data = createCommand(data, MESSAGE = "OK")
+		data = createCommand(data, MESSAGE = "DATA", PAYLOAD = checkIfCheckedIn(database, data["ARGUMENTS"][0]))
+	# elif request == "DIE":
+	# 	database = checkItem(database, data["ARGUMENTS"], 0)
+	# 	data = createCommand(data, MESSAGE = "OK")
+	# elif request == "LIVE":
+	# 	database = checkItem(database, data["ARGUMENTS"], 1)
+	# 	data = createCommand(data, MESSAGE = "OK")
 	elif request == "BOOP":
 		data = createCommand(data, MESSAGE = "HEARTBEAT", )
 	else:
@@ -78,4 +76,11 @@ def createCommand(data, STATION_NUMBER="", COMMAND_ID="", MESSAGE="", REQUEST=""
 def checkItem(database, arguments, io):
 	return database
 
-def checkIfCheckedIn(database, name)
+def checkIfCheckedIn(database, DID):
+	return [True, ""]
+
+def checkIfCanCheck(database, UID):
+	return True
+
+def checkName(database, UID):
+	return "Jesus"
