@@ -74,13 +74,30 @@ def createCommand(data, STATION_NUMBER="", COMMAND_ID="", MESSAGE="", REQUEST=""
 	return data
 
 def checkItem(database, arguments, io):
-	return database
+	
 
 def checkIfCheckedIn(database, DID):
-	return [True, ""]
+	c = database.cursor()
+	DID = (DID,)
+	c.execute("SELECT checkedin FROM devices WHERE did=?",DID)
+	result1 = c.fetchone()[0]
+	if result1 != 1:
+		c.execute("SELECT uid FROM events WHERE did=? ORDER BY time DESC LIMIT 1", DID)
+		result2 = c.fetchone()[0]
+	else:
+		result2 = ""
+	return [result1,result2]
 
 def checkIfCanCheck(database, UID):
-	return True
+	c = database.cursor()
+	UID = (UID,)
+	c.execute("SELECT cancheckout FROM users WHERE uid=?",UID)
+	result = c.fetchone()
+	return result
 
 def checkName(database, UID):
-	return "Jesus"
+	c = database.cursor()
+	UID = (UID,)
+	c.execute("SELECT fname, sname, mname FROM users WHERE uid=?",UID)
+	result = c.fetchone()
+	return result
