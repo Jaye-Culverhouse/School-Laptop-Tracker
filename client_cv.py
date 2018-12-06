@@ -31,7 +31,9 @@ def main():
 			for point in qr.points:
 				cv2.circle(frame, (point.x,point.y), 5, (255,0,0))
 
-		cv2.imshow("Video output",frame)
+		cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+		cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+		cv2.imshow("window",frame)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 
