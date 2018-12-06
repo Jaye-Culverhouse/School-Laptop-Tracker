@@ -39,8 +39,7 @@ class settingsManager():
 			self.settings[key] = newJSON[key]
 		self.save()
 		return True
-		# self.settings = newJSON
-		# return True
+
 def checkBasicSettings(settingsObj):
 	if not settingsObj.isSet("server_db_name"):
 		settingsObj.set("server_db_name", "server_db.db")

@@ -10,7 +10,7 @@ def getCorrectResponse(stations, database, configObj, data):
 	if data["MESSAGE"] != "":		
 		stations, database, configObj, data = messageHandle(stations, database, configObj, data)
 
-	if data["REQUEST"] != "":		
+	elif data["REQUEST"] != "":		
 		stations, database, configObj, data = requestHandle(stations, database, configObj, data)
 
 	return stations, database, configObj, data
@@ -24,6 +24,7 @@ def messageHandle(stations, database, configObj, data):
 		stations["STATION_NUMBER"] = -1
 		data = createCommand(data, MESSAGE = "OK")
 	elif message == "UPDATE":
+
 		data = createCommand(data, REQUEST = "UPDATE")
 	elif message == "UPDATEDATA":
 		configObj.setAll(data["PAYLOAD"])
@@ -39,16 +40,16 @@ def messageHandle(stations, database, configObj, data):
 	else:
 		raise ValueError("Unknown message recieved")
 	
-	database.commit()
+	if database is not None:
+		database.commit()
 
 	return stations, database, configObj, data
 
 def requestHandle(stations, database, configObj, data):
 	request = data["REQUEST"]
 	if request == "UPDATE":
-		data = createCommand(data, MESSAGE="UPDATEDATA", PAYLOAD = json.dumps(
-			json.load(open("settings/station{}.json".format(data["STATION_NUMBER"]))))
-		)
+		data = createCommand(data, MESSAGE="UPDATEDATA", PAYLOAD =json.load(open("settings/station{}.json".format(data["STATION_NUMBER"]))))
+			
 	elif request == "GETNAME":
 		data = createCommand(data, MESSAGE = "DATA", PAYLOAD = checkName(database, data["ARGUMENTS"][0]))
 	elif request == "CANCHECK":
@@ -78,6 +79,12 @@ def createCommand(data, STATION_NUMBER="", COMMAND_ID="", MESSAGE="", REQUEST=""
 	data["ARGUMENTS"] = ARGUMENTS
 	data["PAYLOAD"] = PAYLOAD
 	return data
+
+def setCommandSettings(data, configObj, COUNTER):
+	data["STATION_NUMBER"] = configObj.get("station_number")
+	data["COMMAND_ID"] = COUNTER
+	return data
+
 
 def checkItem(database, arguments, io): #io = 0 /\ checkin | io = 1 /\ checkout
 	c = database.cursor()

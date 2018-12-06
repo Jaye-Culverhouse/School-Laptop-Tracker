@@ -32,6 +32,7 @@ class DBIO_Server(socketserver.StreamRequestHandler): #DATABASE I/O SERVER CLASS
 		print("\n\n")
 		response = json.dumps(response)
 		print("RESPOND: " + response)
+		print("\n\n")
 		self.wfile.write(response.encode("utf-8"))
 		pass
 
