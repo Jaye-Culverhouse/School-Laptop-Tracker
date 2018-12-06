@@ -37,6 +37,8 @@ def messageHandle(stations, database, configObj, data):
 		data = createCommand(data, MESSAGE = "OK")
 	elif message == "HEARTBEAT" or message == "OK":
 		data=""
+	elif message == "DATA":
+		data = createCommand(data, MESSAGE = "OK")
 	else:
 		raise ValueError("Unknown message recieved")
 	
