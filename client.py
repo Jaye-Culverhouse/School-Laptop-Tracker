@@ -34,11 +34,11 @@ def sendAndRecieve(command, settingsObj, COUNTER, database, stations):
 
 	# print(recv)
 
-	stations,database,settingsObj,response = libs.DBIO.getCorrectResponse(stations,database,settingsObj,recv)
+	stations,database,settingsObj,response = libs.DBIO.getCorrectResponse(stations,database,settingsObj,recv.copy())
 
 	COUNTER = COUNTER+1
 
-	return response, settingsObj, COUNTER, database, stations
+	return (response,recv), settingsObj, COUNTER, database, stations
 
 class CheckoutMain(BaseWidget):
 
@@ -47,7 +47,7 @@ class CheckoutMain(BaseWidget):
 
 		self._buttonSignIn = ControlButton("Sign Laptop In")
 		self._buttonSignOut = ControlButton("Sign Laptop Out")
-		self._buttonExit = ControlButton('Press this button')
+		self._buttonExit = ControlButton('Exit')
 
 		self._buttonExit.value = self.__buttonExitAction
 
@@ -68,12 +68,11 @@ def main():
 
 	online = libs.DBIO.createCommand({},MESSAGE="ONLINE")
 	response, settingsObj, COUNTER, database, stations = sendAndRecieve(online, settingsObj, COUNTER, database, stations)
-
 	
 	update = libs.DBIO.createCommand({}, REQUEST="UPDATE")
 	response, settingsObj, COUNTER, database, stations = sendAndRecieve(update, settingsObj, COUNTER, database, stations)
 	
-	# pyforms.start_app(CheckoutMain)
+	pyforms.start_app(CheckoutMain)
 
 if __name__ == '__main__':
 	main()
