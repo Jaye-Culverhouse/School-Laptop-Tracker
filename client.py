@@ -2,6 +2,10 @@ import pyforms
 from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
+from pyforms.controls import ControlPassword
+from pyforms import settings as formSettings
+
+formSettings.PYFORMS_STYLESHEET = "css/testcss.css"
 
 import sys
 import socket
@@ -48,11 +52,15 @@ class CheckoutMain(BaseWidget):
 		self._buttonSignIn = ControlButton("Sign Laptop In")
 		self._buttonSignOut = ControlButton("Sign Laptop Out")
 		self._buttonExit = ControlButton('Exit')
-
+		self._managementPassword = ControlPassword()
+		self.formset = [('_buttonSignIn', '_buttonSignOut'), ('_managementPassword', '_buttonExit')]
 		self._buttonExit.value = self.__buttonExitAction
 
+
+
 	def __buttonExitAction(self):
-		sys.exit()
+		if self._managementPassword.value == "exit":
+			sys.exit()
 
 def main():
 
