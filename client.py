@@ -21,7 +21,7 @@ import libs.communication
 COUNTER = 0
 stations = {}
 database = None
-
+settingsObj = None
 ###End Global Variables
 
 def sendAndRecieve(command, settingsObj, COUNTER, database, stations):
@@ -55,24 +55,35 @@ class CheckoutMain(BaseWidget):
 		self._managementPassword = ControlPassword()
 		self.formset = [('_buttonSignIn', '_buttonSignOut'), ('_managementPassword', '_buttonExit')]
 		self._buttonExit.value = self.__buttonExitAction
+		self._buttonSignIn.value = self.__buttonSignInAction
+		self._buttonSignOut.value = self.__buttonSignOutAction
 
+	def __buttonSignInAction(self):
+		pass
+		QRs = libs.client_cv.readUntilQRFound()
+		print(QRs[0].data)
 
+	def __buttonSignOutAction(self):
+		pass
 
 	def __buttonExitAction(self):
-		if self._managementPassword.value == "exit":
+		if self._managementPassword.value == settingsObj.get("MANAGEMENT_PASSWORD"):
 			sys.exit()
 
 def main():
 
 	###initialisation
 
-	global COUNTER, stations, database
+	global COUNTER, stations, database, settingsObj
 
 	settingsObj = libs.settings.settingsManager("settings/client_Settings.json")
 	
 	settingsObj = libs.settings.checkBasicSettings(settingsObj)
 	settingsObj.save()
-
+	if len(sys.argv) == 3:									
+		settingsObj.set("server_hostname", sys.argv[1])
+		settingsObj.set("server_port", int(sys.argv[2]))				
+	settingsObj.save()
 
 	online = libs.DBIO.createCommand({},MESSAGE="ONLINE")
 	response, settingsObj, COUNTER, database, stations = sendAndRecieve(online, settingsObj, COUNTER, database, stations)
