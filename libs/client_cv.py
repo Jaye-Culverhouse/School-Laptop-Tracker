@@ -4,7 +4,7 @@ from pyzbar.pyzbar import decode as decodeQR
 import libs.QR
 
 def decode(im) : 
-	# Find barcodes and QR codes
+	#QR codes
 
 	codes = decodeQR(im)
 
@@ -19,6 +19,8 @@ def decode(im) :
 
 def readUntilQRFound():
 	cap = cv2.VideoCapture(0)
+	cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
+	cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
 
 	while(True):
 		ret, frame = cap.read()
@@ -29,11 +31,9 @@ def readUntilQRFound():
 			cv2.putText(frame, qr.data, (qr.points[3].x,qr.points[3].y-10), cv2. FONT_HERSHEY_PLAIN, 1, (255,0,0))
 			for point in qr.points:
 				cv2.circle(frame, (point.x,point.y), 5, (255,0,0))
-
-
-		cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
-		cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+		
 		cv2.imshow("window",frame)
+		cv2.waitKey(1)
 		
 		if len(currentQRs) > 0:
 			break
