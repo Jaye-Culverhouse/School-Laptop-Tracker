@@ -1,9 +1,4 @@
 import pyforms
-from pyforms.basewidget import BaseWidget
-from pyforms.controls import ControlText
-from pyforms.controls import ControlButton
-from pyforms.controls import ControlPassword
-from pyforms import settings as formSettings
 
 formSettings.PYFORMS_STYLESHEET = "css/testcss.css"
 
@@ -16,6 +11,7 @@ import libs.DBIO
 import libs.settings
 import libs.communication
 
+from windows.mainWindow import CheckoutMain
 
 ### GLOBAL variables
 COUNTER = 0
@@ -30,12 +26,26 @@ def sendAndRecieve(command, settingsObj, COUNTER, database, stations):
 	command = json.dumps(command)
 	command = command + "\n\n"
 	command = command.encode("utf-8")
-	sock = socket.create_connection((settingsObj.get("server_hostname"),settingsObj.get("server_port")))
-	sock.sendall(command)	
-	recv = sock.recv(4096)
-	recv = recv.decode("utf-8")
-	recv = json.loads(recv)
-
+	try:
+		sock = socket.create_connection((settingsObj.get("server_hostname"),settingsObj.get("server_port")))
+		sock.sendall(command)	
+	except Exception as e:
+		print(e)
+		raise RuntimeError("Network Error: Failed to connect to basestation")
+	
+	try:
+		recv = sock.recv(4096)
+	except Exception as e:
+		print(e)
+		raise RuntimeError("Network Error: Did not recieve a response from basestation")
+	
+	try:
+		recv = recv.decode("utf-8")
+		recv = json.loads(recv)
+	except Exception as e:
+		print(e)
+		print(recv)
+		raise RuntimeError("Response Error: Unable to decode response from basestation")
 	# print(recv)
 
 	stations,database,settingsObj,response = libs.DBIO.getCorrectResponse(stations,database,settingsObj,recv.copy())
@@ -43,32 +53,6 @@ def sendAndRecieve(command, settingsObj, COUNTER, database, stations):
 	COUNTER = COUNTER+1
 
 	return (response,recv), settingsObj, COUNTER, database, stations
-
-class CheckoutMain(BaseWidget):
-
-	def __init__(self):
-		super(CheckoutMain,self).__init__('CheckoutMain')
-
-		self._buttonSignIn = ControlButton("Sign Laptop In")
-		self._buttonSignOut = ControlButton("Sign Laptop Out")
-		self._buttonExit = ControlButton('Exit')
-		self._managementPassword = ControlPassword()
-		self.formset = [('_buttonSignIn', '_buttonSignOut'), ('_managementPassword', '_buttonExit')]
-		self._buttonExit.value = self.__buttonExitAction
-		self._buttonSignIn.value = self.__buttonSignInAction
-		self._buttonSignOut.value = self.__buttonSignOutAction
-
-	def __buttonSignInAction(self):
-		pass
-		QRs = libs.client_cv.readUntilQRFound()
-		print(QRs[0].data)
-
-	def __buttonSignOutAction(self):
-		pass
-
-	def __buttonExitAction(self):
-		if self._managementPassword.value == settingsObj.get("MANAGEMENT_PASSWORD"):
-			sys.exit()
 
 def main():
 
