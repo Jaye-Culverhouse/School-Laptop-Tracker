@@ -1,5 +1,5 @@
 import pyforms
-
+from pyforms import settings as formSettings
 formSettings.PYFORMS_STYLESHEET = "css/testcss.css"
 
 import sys
@@ -11,7 +11,7 @@ import libs.DBIO
 import libs.settings
 import libs.communication
 
-from windows.mainWindow import CheckoutMain
+from window_mainWindow import *
 
 ### GLOBAL variables
 COUNTER = 0

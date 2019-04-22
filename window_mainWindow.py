@@ -2,7 +2,10 @@ from pyforms.basewidget import BaseWidget
 from pyforms.controls import ControlText
 from pyforms.controls import ControlButton
 from pyforms.controls import ControlPassword
-from pyforms import settings as formSettings
+
+import libs.client_cv
+
+from client import settingsObj
 
 class CheckoutMain(BaseWidget):
 
@@ -26,5 +29,6 @@ class CheckoutMain(BaseWidget):
 		pass
 
 	def __buttonExitAction(self):
+		global settingsObj
 		if self._managementPassword.value == settingsObj.get("MANAGEMENT_PASSWORD"):
 			sys.exit()
